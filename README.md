@@ -71,3 +71,6 @@ resugen_v1.2/
     └── resume_examples/
         ├── candidate_a_resume.md
         ├── candidate_b_resume.md
+    └── we_need_this_kind_of_person/
+        ├── job_description.md
+        ├── our_roadmap.md
