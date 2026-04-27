@@ -69,9 +69,5 @@ resugen_v1.2/
 ├── README.md
 └── references/
     └── resume_examples/
-        ├── 黄杰.md
-        ├── 李尚文中文简历.md
-        ├── 林旭东.md
-        ├── 沈卓然.md
-        ├── CTZ简历.md
-        └── Le Chen简历.md
+        ├── candidate_a_resume.md
+        ├── candidate_b_resume.md
