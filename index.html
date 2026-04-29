@@ -15,6 +15,7 @@
         </div>
         <div class="topbar-actions">
           <button class="ghost-button" id="loadSample" type="button">载入样例</button>
+          <button class="ghost-button" id="copyPrompt" type="button">复制模型 Prompt</button>
           <button class="primary-button" id="generateResume" type="button">生成简历</button>
         </div>
       </header>
@@ -87,6 +88,11 @@
           </div>
 
           <div class="quality-box">
+            <h3>AI 接入状态</h3>
+            <p class="mode-note">当前网页是本地草稿模式，不会调用 Codex 或 OpenAI API。真实生成需要后端接口保存 API key，并把输入材料连同生成规则发送给模型。</p>
+          </div>
+
+          <div class="quality-box checklist-box">
             <h3>质量检查</h3>
             <ul>
               <li>推荐语优先来自用户亮点</li>
