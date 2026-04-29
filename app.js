@@ -6,6 +6,7 @@ const statusEl = document.querySelector("#inputStatus");
 const previewEl = document.querySelector("#resumePreview");
 const generateBtn = document.querySelector("#generateResume");
 const sampleBtn = document.querySelector("#loadSample");
+const promptBtn = document.querySelector("#copyPrompt");
 const copyBtn = document.querySelector("#copyOutput");
 const downloadBtn = document.querySelector("#downloadOutput");
 const conservativeEl = document.querySelector("#conservativeMode");
@@ -60,6 +61,15 @@ generateBtn.addEventListener("click", () => {
   const parsed = parseCandidate(notesEl.value);
   latestMarkdown = buildMarkdown(parsed);
   previewEl.innerHTML = markdownToHtml(latestMarkdown);
+});
+
+promptBtn.addEventListener("click", async () => {
+  const prompt = buildModelPrompt(parseCandidate(notesEl.value));
+  await navigator.clipboard.writeText(prompt);
+  promptBtn.textContent = "Prompt 已复制";
+  window.setTimeout(() => {
+    promptBtn.textContent = "复制模型 Prompt";
+  }, 1400);
 });
 
 copyBtn.addEventListener("click", async () => {
@@ -149,6 +159,31 @@ function buildMarkdown(data) {
   if (outputMode === "pitch") return buildPitch(data);
   if (outputMode === "review") return buildReview(data);
   return buildResume(data);
+}
+
+function buildModelPrompt(data) {
+  return `你是一个高端技术候选人中文简历生成器。请基于用户提供的访谈记录、LinkedIn、GitHub、论文列表等碎片材料，生成可直接交付业务负责人、面试官或内部评审使用的中文候选人简历成品。
+
+核心要求：
+- 默认输出简体中文。
+- 输出结构优先使用：推荐语、个人基本信息、教育背景、工作经历、论文 / 专利 / 开源项目。
+- 推荐语必须优先使用用户给定的候选人亮点和推荐判断。
+- 不要输出材料来源说明、面向对象说明、语言说明、候选人画像、技术能力拆解、匹配度评估、关键情报、Final Pitch 或面试问题，除非用户明确要求。
+- 不要编造职级、时间、ownership、论文贡献、薪资、汇报线或影响指标。
+- 如果 ownership 不清楚，使用“参与 / 支持 / 主要参与”，不要写“主导 / 负责”。
+- 缺失字段直接省略，不要写“待确认”。
+- 保留标准 AI/ML 英文技术词，例如 pretraining、post-training、RLHF、RLVR、inference、agent infra、RL environment scaling、JAX、CUDA、NCCL、GB200。
+- 工作经历保持简洁，核心经历 3-5 个 bullet，次要经历 1-2 个 bullet。
+
+用户补充：
+- 推荐方向：${data.targetRole || "未指定"}
+- 重点亮点：${data.highlight || "未单独填写，请从材料中提取"}
+- 不要写入：${data.exclusions || "薪资、汇报线、组织八卦和其他非招聘必要敏感信息"}
+
+原始材料：
+${data.raw || "用户尚未提供材料"}
+
+请直接输出最终中文简历，不要解释写作过程。`;
 }
 
 function buildResume(data) {
