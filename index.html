@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>resuGen | 中文候选人简历生成器</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">resuGen</p>
+          <h1>中文候选人简历生成器</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" id="loadSample" type="button">载入样例</button>
+          <button class="primary-button" id="generateResume" type="button">生成简历</button>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="简历生成工作台">
+        <section class="panel input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">输入材料</p>
+              <h2>原始候选人信息</h2>
+            </div>
+            <span class="status-pill" id="inputStatus">等待输入</span>
+          </div>
+
+          <label class="field-label" for="candidateNotes">访谈记录 / LinkedIn / GitHub / 论文列表</label>
+          <textarea id="candidateNotes" spellcheck="false" placeholder="直接粘贴候选人材料。可以很碎，例如姓名、当前公司、教育、工作经历、项目、推荐亮点等。"></textarea>
+
+          <div class="quick-fields" aria-label="快速补充字段">
+            <label>
+              <span>推荐方向</span>
+              <input id="targetRole" type="text" placeholder="如 pretraining infra / agent infra" />
+            </label>
+            <label>
+              <span>重点亮点</span>
+              <input id="highlight" type="text" placeholder="希望推荐语优先强调的判断" />
+            </label>
+            <label>
+              <span>不要写入</span>
+              <input id="exclusions" type="text" placeholder="如薪资、汇报线、组织八卦" />
+            </label>
+          </div>
+        </section>
+
+        <aside class="panel control-panel">
+          <div class="panel-heading compact">
+            <div>
+              <p class="panel-kicker">生成策略</p>
+              <h2>输出控制</h2>
+            </div>
+          </div>
+
+          <div class="segmented-control" role="tablist" aria-label="输出格式">
+            <button class="segment is-active" data-mode="resume" type="button">中文简历</button>
+            <button class="segment" data-mode="pitch" type="button">推荐理由</button>
+            <button class="segment" data-mode="review" type="button">评估版</button>
+          </div>
+
+          <div class="settings-list">
+            <label class="toggle-row">
+              <input id="conservativeMode" type="checkbox" checked />
+              <span>
+                <strong>事实克制</strong>
+                <small>ownership 不明时使用“参与 / 支持”</small>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <input id="keepTechTerms" type="checkbox" checked />
+              <span>
+                <strong>保留技术英文</strong>
+                <small>pretraining、RLHF、CUDA 等不硬翻译</small>
+              </span>
+            </label>
+            <label class="toggle-row">
+              <input id="includeEvidence" type="checkbox" />
+              <span>
+                <strong>附证据检查</strong>
+                <small>在输出末尾列出待核实信息</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="quality-box">
+            <h3>质量检查</h3>
+            <ul>
+              <li>推荐语优先来自用户亮点</li>
+              <li>缺失字段直接省略</li>
+              <li>默认不写薪资和汇报线</li>
+              <li>输出适合复制给业务或面试官</li>
+            </ul>
+          </div>
+        </aside>
+
+        <section class="panel output-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">生成结果</p>
+              <h2>中文简历成品</h2>
+            </div>
+            <div class="output-actions">
+              <button class="icon-button" id="copyOutput" type="button" title="复制 Markdown">复制</button>
+              <button class="icon-button" id="downloadOutput" type="button" title="下载 Markdown">下载</button>
+            </div>
+          </div>
+          <article class="resume-preview" id="resumePreview">
+            <p class="empty-state">粘贴候选人材料后点击“生成简历”。第一版会先用本地规则生成结构化草稿，后续可以接入模型 API 做更强的抽取和改写。</p>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
