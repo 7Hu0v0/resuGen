@@ -305,6 +305,17 @@ input[type="text"] {
   background: #fff8e9;
 }
 
+.checklist-box {
+  background: #fffaf0;
+}
+
+.mode-note {
+  margin: 0;
+  color: #5c4a24;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .quality-box ul {
   display: grid;
   gap: 8px;
